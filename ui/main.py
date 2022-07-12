@@ -3,6 +3,11 @@ import random
 from PySide2 import QtCore, QtWidgets, QtGui
 
 
+def message_dialog(type, msg):
+    msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Warning, type, msg)
+    msg_box.exec_()
+
+
 class MyWidget(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
@@ -29,10 +34,10 @@ class MyWidget(QtWidgets.QWidget):
         end = QtWidgets.QLabel("关店时间：")
 
         # 初始值占位符
-        self.barberEdit.setPlaceholderText(str(self.K))
-        self.waitEdit.setPlaceholderText(str(self.L))
-        self.startEdit.setPlaceholderText(str(self.t_start))
-        self.endEdit.setPlaceholderText(str(self.t_end))
+        # self.barberEdit.setPlaceholderText(str(self.K))
+        # self.waitEdit.setPlaceholderText(str(self.L))
+        # self.startEdit.setPlaceholderText(str(self.t_start))
+        # self.endEdit.setPlaceholderText(str(self.t_end))
 
         grid = QtWidgets.QGridLayout()
         grid.setSpacing(10)
@@ -68,15 +73,37 @@ class MyWidget(QtWidgets.QWidget):
         # 触发事件
         addButton.clicked.connect(self.random_create)
 
+    # 消息提示框
+
+    # 初始化数据
+    def init_data(self):
+        k = self.barberEdit.text()
+        l = self.waitEdit.text()
+        start = self.startEdit.text()
+        end = self.endEdit.text()
+        if k and l and start and end:
+            self.K = int(k)
+            self.L = int(l)
+            self.t_start = int(start)
+            self.t_end = int(end)
+            return True
+        else:
+            message_dialog("参数错误", "初始参数不能为空！")
+            return False
+
     # 随机生成顾客
     def random_create(self):
-        self.K = int(self.barberEdit.text())
-        self.L = int(self.waitEdit.text())
-        self.t_start = int(self.startEdit.text())
-        self.t_end = int(self.endEdit.text())
-
-        if self.K <= 0:
-            print("随机生成顾客")
+        if self.init_data():
+            if self.K <= 0:
+                message_dialog("参数错误", '理发师人数必须大于0！')
+            if self.L < 0:
+                message_dialog("参数错误", "等待容量不能小于0！")
+            if self.t_start < 0:
+                message_dialog("参数错误", "开店时间不能小于0！")
+            if self.t_end < 0:
+                message_dialog("参数错误", "关店时间不能小于0！")
+            if self.t_start >= self.t_end:
+                message_dialog("参数错误", "开店时间必须小于关店时间！")
 
 
 # 运行窗口
