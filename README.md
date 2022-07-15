@@ -21,3 +21,26 @@
 - 设计的程序要包含一个简单的界面实现，界面要求：有合理提示，上述每个功能可以设立菜单，根据提示可完成相关的功能要求。
 - 测试数据：要求使用1、合法数据；2、非法数据。进行程序测试，以保证程序的稳定，测试数据及测试结果请在上交的资料中写明。
 
+## 运行
+- clone
+```shell
+git clone https://github.com/lif314/BarberShopSimulator.git
+```
+
+- install
+```shell
+pip install -r requirements.txt
+```
+
+- run
+```shell
+python BarberShopSimulator.py
+```
+
+## 打包
+```shell
+pyinstaller -F -i .\bslogo.ico -w .\BarberShopSimulator.py
+```
+
+## 展示
+![img.png](docs/img.png)
